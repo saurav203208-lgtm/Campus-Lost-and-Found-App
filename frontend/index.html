@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Campus Lost & Found</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            Campus Lost & Found
+        </div>
+
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#items">Items</a>
+            <a href="#post">Post Item</a>
+            <a href="dashboard.html">Dashboard</a>
+
+            <button onclick="logout()" class="logout-btn">
+                Logout
+            </button>
+        </div>
+
+    </nav>
+
+
+    <!-- ================= HERO ================= -->
+
+    <section id="home" class="hero">
+
+        <div class="hero-content">
+
+            <h1>
+                Lost Something?
+                <br>
+                Found Something?
+            </h1>
+
+            <p>
+                A simple campus platform to help students
+                find and return lost belongings.
+            </p>
+
+            <a href="#post" class="hero-btn">
+                Post an Item
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= AUTH ================= -->
+
+    <section class="auth-section">
+
+        <!-- REGISTER -->
+
+        <div class="auth-card">
+
+            <h2>Register</h2>
+
+            <input
+                type="text"
+                id="registerName"
+                placeholder="Full Name"
+            >
+
+            <input
+                type="email"
+                id="registerEmail"
+                placeholder="Email"
+            >
+
+            <input
+                type="password"
+                id="registerPassword"
+                placeholder="Password"
+            >
+
+            <button onclick="register()">
+                Create Account
+            </button>
+
+            <p id="registerMessage"></p>
+
+        </div>
+
+
+        <!-- LOGIN -->
+
+        <div class="auth-card">
+
+            <h2>Login</h2>
+
+            <input
+                type="email"
+                id="loginEmail"
+                placeholder="Email"
+            >
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Password"
+            >
+
+            <button onclick="login()">
+                Login
+            </button>
+
+            <p id="loginMessage"></p>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= POST ITEM ================= -->
+
+    <section id="post" class="section">
+
+        <h2>
+            Post Lost / Found Item
+        </h2>
+
+        <form id="itemForm">
+
+            <input
+                type="text"
+                id="title"
+                placeholder="Item Title"
+                required
+            >
+
+            <textarea
+                id="description"
+                placeholder="Item Description"
+                required
+            ></textarea>
+
+
+            <select id="type" required>
+
+                <option value="">
+                    Select Type
+                </option>
+
+                <option value="lost">
+                    Lost Item
+                </option>
+
+                <option value="found">
+                    Found Item
+                </option>
+
+            </select>
+
+
+            <select id="category" required>
+
+                <option value="">
+                    Select Category
+                </option>
+
+                <option value="Electronics">
+                    Electronics
+                </option>
+
+                <option value="Documents">
+                    Documents
+                </option>
+
+                <option value="Books">
+                    Books
+                </option>
+
+                <option value="Accessories">
+                    Accessories
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+
+            <input
+                type="text"
+                id="location"
+                placeholder="Location"
+                required
+            >
+
+
+            <input
+                type="date"
+                id="date"
+                required
+            >
+
+
+            <label for="image">
+                Item Image
+            </label>
+
+            <input
+                type="file"
+                id="image"
+                accept="image/png, image/jpeg, image/webp"
+            >
+
+
+            <button type="submit">
+                Post Item
+            </button>
+
+            <p id="itemMessage"></p>
+
+        </form>
+
+    </section>
+
+
+    <!-- ================= ITEMS ================= -->
+
+    <section id="items" class="section">
+
+        <h2>
+            Lost & Found Items
+        </h2>
+
+
+        <!-- FILTERS -->
+
+        <div class="filters">
+
+            <input
+                type="text"
+                id="search"
+                placeholder="Search by title, description, category or location..."
+                oninput="filterItems()"
+            >
+
+
+            <select
+                id="typeFilter"
+                onchange="filterItems()"
+            >
+
+                <option value="">
+                    All Types
+                </option>
+
+                <option value="lost">
+                    Lost
+                </option>
+
+                <option value="found">
+                    Found
+                </option>
+
+            </select>
+
+
+            <select
+                id="categoryFilter"
+                onchange="filterItems()"
+            >
+
+                <option value="">
+                    All Categories
+                </option>
+
+                <option value="Electronics">
+                    Electronics
+                </option>
+
+                <option value="Documents">
+                    Documents
+                </option>
+
+                <option value="Books">
+                    Books
+                </option>
+
+                <option value="Accessories">
+                    Accessories
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+
+            <select
+                id="statusFilter"
+                onchange="filterItems()"
+            >
+
+                <option value="">
+                    All Status
+                </option>
+
+                <option value="active">
+                    Active
+                </option>
+
+                <option value="claimed">
+                    Claimed
+                </option>
+
+                <option value="returned">
+                    Returned
+                </option>
+
+            </select>
+
+
+            <button
+                type="button"
+                onclick="clearFilters()"
+            >
+                Clear Filters
+            </button>
+
+        </div>
+
+
+        <!-- ITEMS -->
+         <p class="items-info">Login karke items claim ya return kar sakte ho.</p>
+
+        <div
+            id="itemsContainer"
+            class="items-grid"
+        ></div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            © 2026 Campus Lost & Found App
+        </p>
+
+    </footer>
+
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>

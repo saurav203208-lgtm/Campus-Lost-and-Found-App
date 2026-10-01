@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Item Details - Campus Lost & Found</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        Campus Lost & Found
+    </div>
+
+    <div class="nav-links">
+
+        <a href="index.html#home">Home</a>
+        <a href="index.html#items">Items</a>
+        <a href="index.html#post">Post Item</a>
+
+    </div>
+
+</nav>
+
+
+<section class="item-details-section">
+
+    <div id="itemDetails">
+
+        <p class="loading">
+            Loading item details...
+        </p>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <p>
+        © 2026 Campus Lost & Found App
+    </p>
+
+</footer>
+
+
+<script>
+
+const API_URL = "http://localhost:5000/api";
+
+
+async function loadItemDetails() {
+
+    const params =
+        new URLSearchParams(window.location.search);
+
+    const itemId =
+        params.get("id");
+
+
+    if (!itemId) {
+
+        showError("Invalid item ID.");
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(`${API_URL}/items/${itemId}`);
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            showError(data.message);
+
+            return;
+        }
+
+
+        const item = data.item;
+
+        const currentUser =
+            JSON.parse(localStorage.getItem("user") || "null");
+
+
+        const imageHTML = item.image
+
+            ? `
+                <img
+                    src="${item.image}"
+                    class="details-image"
+                    alt="${item.title}"
+                >
+              `
+
+            : `
+                <div class="details-no-image">
+                    No Image Available
+                </div>
+              `;
+
+
+        let actionButtons = "";
+
+
+        if (
+            currentUser &&
+            item.status === "active" &&
+            item.postedBy?._id !== currentUser.id
+        ) {
+
+            actionButtons += `
+                <button
+                    class="claim-btn"
+                    onclick="claimItem('${item._id}')">
+                    Claim Item
+                </button>
+            `;
+        }
+
+
+        if (
+            currentUser &&
+            item.status === "active" &&
+            item.postedBy?._id === currentUser.id
+        ) {
+
+            actionButtons += `
+                <button
+                    class="return-btn"
+                    onclick="returnItem('${item._id}')">
+                    Mark as Returned
+                </button>
+            `;
+        }
+
+
+        document.getElementById("itemDetails").innerHTML = `
+
+            <div class="details-card">
+
+                ${imageHTML}
+
+                <div class="details-content">
+
+                    <span class="badge ${item.type}">
+                        ${item.type.toUpperCase()}
+                    </span>
+
+                    <h1>
+                        ${item.title}
+                    </h1>
+
+                    <p class="details-description">
+                        ${item.description}
+                    </p>
+
+                    <div class="details-info">
+
+                        <p>
+                            <strong>Category:</strong>
+                            ${item.category}
+                        </p>
+
+                        <p>
+                            <strong>Location:</strong>
+                            ${item.location}
+                        </p>
+
+                        <p>
+                            <strong>Date:</strong>
+                            ${new Date(item.date).toLocaleDateString()}
+                        </p>
+
+                        <p>
+                            <strong>Status:</strong>
+                            ${item.status}
+                        </p>
+
+                        <p>
+                            <strong>Posted By:</strong>
+                            ${item.postedBy?.name || "Student"}
+                        </p>
+
+                        ${
+                            item.claimedBy
+                                ? `
+                                    <p>
+                                        <strong>Claimed By:</strong>
+                                        ${item.claimedBy.name || "Student"}
+                                    </p>
+                                  `
+                                : ""
+                        }
+
+                    </div>
+
+
+                    <div class="item-actions">
+
+                        ${actionButtons}
+
+                    </div>
+
+
+                    <a
+                        href="index.html#items"
+                        class="back-btn">
+                        ← Back to Items
+                    </a>
+
+                </div>
+
+            </div>
+
+        `;
+
+    } catch (error) {
+
+        console.error(error);
+
+        showError(
+            "Unable to load item. Please make sure backend is running."
+        );
+    }
+}
+
+
+function showError(message) {
+
+    document.getElementById("itemDetails").innerHTML = `
+
+        <div class="details-card">
+
+            <div class="details-content">
+
+                <h2>
+                    Item Not Found
+                </h2>
+
+                <p>
+                    ${message}
+                </p>
+
+                <a
+                    href="index.html#items"
+                    class="back-btn">
+                    Back to Items
+                </a>
+
+            </div>
+
+        </div>
+
+    `;
+}
+
+
+async function claimItem(itemId) {
+
+    const token =
+        localStorage.getItem("token");
+
+
+    if (!token) {
+
+        alert("Please login first.");
+
+        return;
+    }
+
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/items/${itemId}/claim`,
+            {
+                method: "PUT",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+
+
+        const data =
+            await response.json();
+
+
+        alert(data.message);
+
+
+        if (data.success) {
+
+            await loadItemDetails();
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Unable to claim item.");
+    }
+}
+
+
+async function returnItem(itemId) {
+
+    const token =
+        localStorage.getItem("token");
+
+
+    if (!token) {
+
+        alert("Please login first.");
+
+        return;
+    }
+
+
+    try {
+
+        const response = await fetch(
+            `${API_URL}/items/${itemId}/return`,
+            {
+                method: "PUT",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+
+
+        const data =
+            await response.json();
+
+
+        alert(data.message);
+
+
+        if (data.success) {
+
+            await loadItemDetails();
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Unable to mark item as returned.");
+    }
+}
+
+
+loadItemDetails();
+
+</script>
+
+</body>
+
+</html>
