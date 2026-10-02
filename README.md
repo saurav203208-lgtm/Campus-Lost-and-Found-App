@@ -4,10 +4,10 @@ A full-stack web application that helps students report lost items, post found i
 
 ## 🌐 Live Demo
 
-Frontend:
+**Frontend:**  
 https://campus-lost-and-found-app-frontend.vercel.app/
 
-Backend API:
+**Backend API:**  
 https://campus-lost-and-found-app-1.onrender.com/
 
 ## ✨ Features
@@ -29,25 +29,7 @@ https://campus-lost-and-found-app-1.onrender.com/
 - Responsive User Interface
 
 ## 🛠️ Tech Stack
-## 📸 Screenshots
 
-### 🏠 Home Page
-![Home Page](./home%20page.jpeg)
-
-### 🔐 Register & Login
-![Register and Login](./register%20and%20login%20page.jpeg)
-
-### 📋 Lost & Found Items
-![Lost and Found](./lost%20and%20found.jpeg)
-
-### ➕ Post Lost / Found Item
-![Post Item](./post%20lost%20found%20app.jpeg)
-
-### 🔎 Item Details & Claim
-![Item Claim](./item%20claimed.jpeg)
-
-### 📊 Dashboard
-![Dashboard](./my%20dashboard.jpeg)
 ### Frontend
 - HTML5
 - CSS3
@@ -71,6 +53,26 @@ https://campus-lost-and-found-app-1.onrender.com/
 - Vercel — Frontend
 - Render — Backend
 - MongoDB Atlas — Database
+
+## 📸 Screenshots
+
+### 🏠 Home Page
+![Home Page](./home%20page.jpeg)
+
+### 🔐 Register & Login
+![Register and Login](./register%20and%20login%20page.jpeg)
+
+### 📋 Lost & Found Items
+![Lost and Found](./lost%20and%20found.jpeg)
+
+### ➕ Post Lost / Found Item
+![Post Item](./post%20lost%20found%20app.jpeg)
+
+### 🔎 Item Details & Claim
+![Item Claim](./item%20claimed.jpeg)
+
+### 📊 Dashboard
+![Dashboard](./my%20dashboard.jpeg)
 
 ## 🔄 How It Works
 
