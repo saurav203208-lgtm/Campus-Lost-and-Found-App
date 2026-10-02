@@ -196,12 +196,24 @@
             </select>
 
 
-            <input
-                type="text"
-                id="location"
-                placeholder="Location"
-                required
-            >
+            <div class="location-box">
+
+               <input 
+                   type="text" 
+                   id="location" 
+                   placeholder="Enter location e.g. MIET Library"
+                   required
+               >
+
+               <button 
+                   type="button" 
+                   onclick="getCurrentLocation()">
+                   📍 Use My GPS Location
+               </button>
+
+               <p id="locationMessage"></p>
+
+            </div>
 
 
             <input

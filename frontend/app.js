@@ -557,5 +557,59 @@ function logout() {
     location.reload();
 }
 
+// ================= GPS LOCATION =================
 
+function getCurrentLocation() {
+
+    const locationInput =
+        document.getElementById("location");
+
+    const locationMessage =
+        document.getElementById("locationMessage");
+
+    if (!navigator.geolocation) {
+
+        locationMessage.textContent =
+            "GPS is not supported by this browser.";
+
+        return;
+    }
+
+    locationMessage.textContent =
+        "Getting your current location...";
+
+    navigator.geolocation.getCurrentPosition(
+
+        function(position) {
+
+            const latitude =
+                position.coords.latitude;
+
+            const longitude =
+                position.coords.longitude;
+
+            locationInput.value =
+                `Lat: ${latitude.toFixed(6)}, Lng: ${longitude.toFixed(6)}`;
+
+            locationMessage.textContent =
+                "GPS location added successfully.";
+
+        },
+
+        function(error) {
+
+            console.error(error);
+
+            locationMessage.textContent =
+                "Unable to get GPS location. Please allow location permission.";
+
+        },
+
+        {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+        }
+    );
+}
 loadItems();
