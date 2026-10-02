@@ -247,9 +247,8 @@ function displayItems(items) {
 
         if (
             currentUser &&
-            item.status === "active" &&
-            item.postedBy?._id === currentUser.id &&
-            item.type === "lost"
+            item.status === "claimed" &&
+            item.postedBy?._id === currentUser._id
         )  {
             actionButtons += `
                 <button
