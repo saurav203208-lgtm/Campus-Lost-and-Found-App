@@ -236,7 +236,6 @@ function displayItems(items) {
             item.status === "active" &&
             item.postedBy?._id !== currentUser.id
         ) {
-
             actionButtons += `
                 <button
                     class="claim-btn"
@@ -246,13 +245,12 @@ function displayItems(items) {
             `;
         }
 
-
         if (
             currentUser &&
             item.status === "active" &&
-            item.postedBy?._id === currentUser.id
-        ) {
-
+            item.postedBy?._id === currentUser.id &&
+            item.type === "lost"
+        )  {
             actionButtons += `
                 <button
                     class="return-btn"
