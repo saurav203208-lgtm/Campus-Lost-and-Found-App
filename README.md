@@ -31,48 +31,67 @@ https://campus-lost-and-found-app-1.onrender.com/
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - HTML5
 - CSS3
 - JavaScript
 
 ### Backend
+
 - Node.js
 - Express.js
 - MongoDB
 - Mongoose
 
 ### Authentication
+
 - JWT
 - bcryptjs
 
 ### Image Upload
+
 - Cloudinary
 - Multer
 
 ### Deployment
+
 - Vercel — Frontend
 - Render — Backend
 - MongoDB Atlas — Database
 
 ## 📸 Screenshots
 
-### 🏠 Home Page
-![Home Page](./home%20page.jpeg)
+### Home Page
 
-### 🔐 Register & Login
-![Register and Login](./register%20and%20login%20page.jpeg)
+![Home Page](home%20page.jpeg)
 
-### 📋 Lost & Found Items
-![Lost and Found](./lost%20and%20found.jpeg)
+### Register and Login
 
-### ➕ Post Lost / Found Item
-![Post Item](./post%20lost%20found%20app.jpeg)
+![Register and Login](register%20and%20login%20page.jpeg)
 
-### 🔎 Item Details & Claim
-![Item Claim](./item%20claimed.jpeg)
+### Post Lost / Found Item
 
-### 📊 Dashboard
-![Dashboard](./my%20dashboard.jpeg)
+![Post Item](post%20lost%20found%20app.jpeg)
+
+### Lost Item
+
+![Lost Item](item%20lost%201.jpeg)
+
+### Claimed Item
+
+![Claimed Item](item%20claimed.jpeg)
+
+### Dashboard
+
+![Dashboard](my%20dashboard.jpeg)
+
+### Dashboard Overview
+
+![Dashboard Overview](my%20dashboard%201.jpeg)
+
+### Lost and Found
+
+![Lost and Found](lost%20and%20found.jpeg)
 
 ## 🔄 How It Works
 
@@ -103,6 +122,8 @@ Campus-Lost-and-Found-App
     ├── dashboard.html
     ├── app.js
     └── style.css
+```
+
 ## 🔐 Security
 
 - Passwords are hashed using bcryptjs.
