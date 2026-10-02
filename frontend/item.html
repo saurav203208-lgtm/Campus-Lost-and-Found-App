@@ -53,8 +53,13 @@
 
 <script>
 
-const API_URL = "https://campus-lost-and-found-app-1.onrender.com/api";
+const API_URL =
+    "https://campus-lost-and-found-app-1.onrender.com/api";
 
+
+// ==============================
+// LOAD ITEM DETAILS
+// ==============================
 
 async function loadItemDetails() {
 
@@ -90,11 +95,30 @@ async function loadItemDetails() {
         }
 
 
-        const item = data.item;
+        const item =
+            data.item;
 
+
+        // Current logged-in user
         const currentUser =
-            JSON.parse(localStorage.getItem("user") || "null");
+            JSON.parse(
+                localStorage.getItem("user") || "null"
+            );
 
+
+        // Support both id and _id
+        const currentUserId =
+            currentUser?._id || currentUser?.id;
+
+
+        // Posted user's ID
+        const postedById =
+            item.postedBy?._id || item.postedBy?.id;
+
+
+        // ==============================
+        // IMAGE
+        // ==============================
 
         const imageHTML = item.image
 
@@ -113,13 +137,22 @@ async function loadItemDetails() {
               `;
 
 
+        // ==============================
+        // ACTION BUTTONS
+        // ==============================
+
         let actionButtons = "";
 
 
+        // ==========================================
+        // CLAIM BUTTON
+        // Only another user can claim ACTIVE item
+        // ==========================================
+
         if (
-            currentUser &&
+            currentUserId &&
             item.status === "active" &&
-            item.postedBy?._id !== currentUser.id
+            postedById !== currentUserId
         ) {
 
             actionButtons += `
@@ -132,10 +165,15 @@ async function loadItemDetails() {
         }
 
 
+        // ==========================================
+        // RETURN BUTTON
+        // Owner can return CLAIMED item
+        // ==========================================
+
         if (
-            currentUser &&
-            item.status === "active" &&
-            item.postedBy?._id === currentUser.id
+            currentUserId &&
+            item.status === "claimed" &&
+            postedById === currentUserId
         ) {
 
             actionButtons += `
@@ -147,6 +185,10 @@ async function loadItemDetails() {
             `;
         }
 
+
+        // ==========================================
+        // DISPLAY ITEM
+        // ==========================================
 
         document.getElementById("itemDetails").innerHTML = `
 
@@ -160,13 +202,16 @@ async function loadItemDetails() {
                         ${item.type.toUpperCase()}
                     </span>
 
+
                     <h1>
                         ${item.title}
                     </h1>
 
+
                     <p class="details-description">
                         ${item.description}
                     </p>
+
 
                     <div class="details-info">
 
@@ -175,25 +220,30 @@ async function loadItemDetails() {
                             ${item.category}
                         </p>
 
+
                         <p>
                             <strong>Location:</strong>
                             ${item.location}
                         </p>
+
 
                         <p>
                             <strong>Date:</strong>
                             ${new Date(item.date).toLocaleDateString()}
                         </p>
 
+
                         <p>
                             <strong>Status:</strong>
                             ${item.status}
                         </p>
 
+
                         <p>
                             <strong>Posted By:</strong>
                             ${item.postedBy?.name || "Student"}
                         </p>
+
 
                         ${
                             item.claimedBy
@@ -228,7 +278,9 @@ async function loadItemDetails() {
 
         `;
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         console.error(error);
 
@@ -238,6 +290,10 @@ async function loadItemDetails() {
     }
 }
 
+
+// ==============================
+// SHOW ERROR
+// ==============================
 
 function showError(message) {
 
@@ -269,6 +325,10 @@ function showError(message) {
 }
 
 
+// ==============================
+// CLAIM ITEM
+// ==============================
+
 async function claimItem(itemId) {
 
     const token =
@@ -286,11 +346,15 @@ async function claimItem(itemId) {
     try {
 
         const response = await fetch(
+
             `${API_URL}/items/${itemId}/claim`,
+
             {
                 method: "PUT",
+
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization:
+                        `Bearer ${token}`
                 }
             }
         );
@@ -306,9 +370,12 @@ async function claimItem(itemId) {
         if (data.success) {
 
             await loadItemDetails();
+
         }
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         console.error(error);
 
@@ -316,6 +383,10 @@ async function claimItem(itemId) {
     }
 }
 
+
+// ==============================
+// RETURN ITEM
+// ==============================
 
 async function returnItem(itemId) {
 
@@ -334,11 +405,15 @@ async function returnItem(itemId) {
     try {
 
         const response = await fetch(
+
             `${API_URL}/items/${itemId}/return`,
+
             {
                 method: "PUT",
+
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization:
+                        `Bearer ${token}`
                 }
             }
         );
@@ -354,16 +429,25 @@ async function returnItem(itemId) {
         if (data.success) {
 
             await loadItemDetails();
+
         }
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         console.error(error);
 
-        alert("Unable to mark item as returned.");
+        alert(
+            "Unable to mark item as returned."
+        );
     }
 }
 
+
+// ==============================
+// START
+// ==============================
 
 loadItemDetails();
 
