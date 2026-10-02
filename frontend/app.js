@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:5000/api";
+const API_URL = "https://campus-lost-and-found-app-1.onrender.com/api";
 
 let allItems = [];
 
